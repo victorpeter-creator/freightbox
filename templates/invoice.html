@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        body { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #333; }
+        .header { width: 100%; border-bottom: 2px solid #1e293b; padding-bottom: 20px; margin-bottom: 20px; }
+        .logo { max-height: 60px; max-width: 150px; }
+        .title { font-size: 24px; font-weight: bold; color: #1e293b; text-align: right; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .details-table td { padding: 5px; vertical-align: top; }
+        .billing-table th { background-color: #f1f5f9; padding: 10px; text-align: left; border-bottom: 1px solid #cbd5e1; }
+        .billing-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
+        .total-row td { font-weight: bold; font-size: 14px; background-color: #f8fafc; }
+        h3 { font-size: 14px; color: #475569; margin-bottom: 5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px; }
+    </style>
+</head>
+<body>
+    <table class="header">
+        <tr>
+            <td style="width: 50%;">
+                {% if logo_path %}
+                <img src="{{ logo_path }}" class="logo">
+                {% else %}
+                <h1 style="margin:0; font-size:20px;">{{ org.name }}</h1>
+                {% endif %}
+                <p style="margin:5px 0 0 0; color:#64748b;">
+                    {{ org.address }}<br>
+                    Phone: {{ org.phone }} | Email: {{ org.email }}
+                </p>
+            </td>
+            <td style="width: 50%; text-align: right;">
+                <div class="title">FREIGHT QUOTE</div>
+                <p><strong>Tracking #:</strong> {{ shipment.tracking_code }}<br>
+                <strong>Date:</strong> {{ date }}</p>
+            </td>
+        </tr>
+    </table>
+
+    <table class="details-table">
+        <tr>
+            <td style="width: 50%;">
+                <h3>Client Information</h3>
+                <strong>{{ shipment.client_name }}</strong><br>
+                {% if shipment.client_company %}{{ shipment.client_company }}<br>{% endif %}
+                {{ shipment.client_email }}<br>
+                {{ shipment.client_phone }}
+            </td>
+            <td style="width: 50%;">
+                <h3>Routing Information</h3>
+                <strong>Service:</strong> {{ shipment.service_type }}<br>
+                <strong>Cargo:</strong> {{ shipment.cargo_type }}<br>
+                
+                <div style="margin-top: 10px;">
+                    <strong>Origin:</strong> {{ shipment.origin }}<br>
+                    {% if shipment.origin_door_address %}
+                    <span style="color:#64748b; font-size:10px;">Pickup: {{ shipment.origin_door_address }}</span><br>
+                    {% endif %}
+                    
+                    <strong style="margin-top:5px; display:inline-block;">Destination:</strong> {{ shipment.destination }}<br>
+                    {% if shipment.dest_door_address %}
+                    <span style="color:#64748b; font-size:10px;">Delivery: {{ shipment.dest_door_address }}</span>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <h3>Financial Breakdown (NGN)</h3>
+    <table class="billing-table">
+        <tr>
+            <th>Description</th>
+            <th style="text-align: right;">Amount</th>
+        </tr>
+        <tr>
+            <td>Ocean / Air Base Freight</td>
+            <td style="text-align: right;">{{ "{:,.2f}".format(shipment.base_freight) }}</td>
+        </tr>
+        {% if shipment.customs_fee > 0 %}
+        <tr>
+            <td>Customs Clearance Fee</td>
+            <td style="text-align: right;">{{ "{:,.2f}".format(shipment.customs_fee) }}</td>
+        </tr>
+        {% endif %}
+        {% if shipment.trucking_fee > 0 %}
+        <tr>
+            <td>Inland Trucking & Delivery Fee</td>
+            <td style="text-align: right;">{{ "{:,.2f}".format(shipment.trucking_fee) }}</td>
+        </tr>
+        {% endif %}
+        {% if shipment.additional_charges > 0 %}
+        <tr>
+            <td>Additional / Misc Charges</td>
+            <td style="text-align: right;">{{ "{:,.2f}".format(shipment.additional_charges) }}</td>
+        </tr>
+        {% endif %}
+        <tr class="total-row">
+            <td style="text-align: right;">TOTAL QUOTE AMOUNT:</td>
+            <td style="text-align: right; color: #1e293b;">NGN {{ "{:,.2f}".format(shipment.total_quote_amount) }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 40px; font-size: 10px; color: #94a3b8; text-align: center;">
+        <p>This quote is valid for 14 days. Subject to standard trading conditions and demurrage penalties upon port arrival.</p>
+        {% if org.bank_name %}
+        <p><strong>Bank:</strong> {{ org.bank_name }} | <strong>Account:</strong> {{ org.account_number }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

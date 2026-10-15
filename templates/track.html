@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Shipment - {{ shipment.tracking_code }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans antialiased p-4 flex flex-col items-center min-h-screen pt-10">
+
+    <div class="max-w-md w-full bg-white p-6 rounded-xl shadow-md">
+        
+        <div class="text-center border-b pb-4 mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Shipment Tracker</h2>
+            <p class="text-blue-600 font-mono text-lg mt-1 font-bold">{{ shipment.tracking_code }}</p>
+        </div>
+
+        <div class="mb-6 space-y-2 text-sm text-gray-700 bg-gray-50 p-4 rounded-lg">
+            <p><strong>Client:</strong> {{ shipment.client_name }}</p>
+            <p><strong>Cargo:</strong> {{ shipment.cargo_type }}</p>
+            <p><strong>Route:</strong> {{ shipment.origin }} &rarr; {{ shipment.destination }}</p>
+        </div>
+
+        <div class="border rounded-lg p-4">
+            <h3 class="font-bold text-gray-800 mb-4 border-b pb-2">Live Status</h3>
+            
+            <ul class="space-y-4 text-sm">
+                <li class="flex items-center space-x-3">
+                    <span class="text-2xl">{% if shipment.current_status in ['cleared', 'loaded', 'in_transit', 'delivered'] %}✅{% else %}⏳{% endif %}</span>
+                    <span class="{% if shipment.current_status == 'cleared' %}font-bold text-blue-600{% else %}text-gray-600{% endif %}">Cleared at Port</span>
+                </li>
+                
+                <li class="flex items-center space-x-3">
+                    <span class="text-2xl">{% if shipment.current_status in ['loaded', 'in_transit', 'delivered'] %}✅{% else %}⏳{% endif %}</span>
+                    <span class="{% if shipment.current_status == 'loaded' %}font-bold text-blue-600{% else %}text-gray-600{% endif %}">Loaded on Truck</span>
+                </li>
+                
+                <li class="flex items-center space-x-3">
+                    <span class="text-2xl">{% if shipment.current_status in ['in_transit', 'delivered'] %}🚛{% else %}⏳{% endif %}</span>
+                    <span class="{% if shipment.current_status == 'in_transit' %}font-bold text-blue-600{% else %}text-gray-600{% endif %}">In Transit</span>
+                </li>
+                
+                <li class="flex items-center space-x-3">
+                    <span class="text-2xl">{% if shipment.current_status == 'delivered' %}🏆{% else %}⏳{% endif %}</span>
+                    <span class="{% if shipment.current_status == 'delivered' %}font-bold text-green-600{% else %}text-gray-600{% endif %}">Delivered</span>
+                </li>
+            </ul>
+        </div>
+        
+        <p class="text-center text-xs text-gray-400 mt-6">Powered by FOS Logistics</p>
+    </div>
+
+</body>
+</html>

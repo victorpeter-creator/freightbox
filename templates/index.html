@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreightBox - Modern Freight Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 font-sans antialiased text-gray-900 flex flex-col min-h-screen">
+    
+    <!-- NAVIGATION -->
+    <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-8">
+            <div class="font-black text-2xl tracking-tighter text-blue-600">FreightBox</div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="/login" class="text-sm font-bold text-slate-600 hover:text-blue-600 transition">Sign In</a>
+            <a href="/register" class="text-sm bg-blue-600 text-white hover:bg-blue-700 py-2 px-5 rounded-md font-bold transition duration-300 shadow-sm">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <div class="relative bg-slate-900 flex-grow flex items-center justify-center">
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Freight Container Ship" class="w-full h-full object-cover" />
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-20">
+            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight mb-6">
+                Freight forwarding, <span class="text-blue-400">simplified.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Automate your quotes, offer live client portals, and track global cargo in real-time. The complete operating system for modern logistics companies.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="/register" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-md hover:bg-blue-700 transition shadow-lg text-lg">Create Workspace</a>
+                <a href="/client/login" class="bg-white text-slate-800 font-bold py-3 px-8 rounded-md hover:bg-slate-100 transition shadow-lg text-lg">Client Portal Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JLPVC FOOTER -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800 mt-auto relative z-20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+            
+            <!-- Left Column: Branding -->
+            <div class="space-y-4">
+                <div class="bg-white p-2.5 rounded-sm inline-flex items-center space-x-2 shadow-sm">
+                    <!-- Geometric Logo Graphic -->
+                    <svg class="w-6 h-6 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"></circle>
+                    </svg>
+                    <div>
+                        <span class="text-blue-600 font-black text-xl tracking-tighter block leading-none">JLPVC</span>
+                        <span class="text-orange-500 text-[8px] font-bold block leading-none tracking-widest mt-1">TECHNOLOGIES</span>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-400 max-w-xs leading-relaxed">
+                    We build reliable digital solutions that save you time and help your business grow.
+                </p>
+            </div>
+
+            <!-- Center Column: Contact Info -->
+            <div class="space-y-2 md:flex md:flex-col md:items-center md:justify-center">
+                <div class="text-left md:text-center">
+                    <h4 class="text-white font-bold text-sm mb-3">Reach Out Directly</h4>
+                    <a href="mailto:jlpvctech@gmail.com" class="block text-sm text-slate-400 hover:text-white transition mb-1">jlpvctech@gmail.com</a>
+                    <a href="tel:+2349166177467" class="block text-sm text-slate-400 hover:text-white transition">+234 916 617 7467</a>
+                </div>
+            </div>
+
+            <!-- Right Column: Quick Links -->
+            <div class="flex flex-col space-y-3 md:items-end justify-center">
+                <a href="#" class="text-sm text-slate-400 hover:text-white transition">Contact</a>
+                <a href="#" class="text-sm text-slate-400 hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="text-sm text-slate-400 hover:text-white transition">Terms of Service</a>
+            </div>
+        </div>
+        
+        <!-- Bottom Bar: JLPVC Credit -->
+        <div class="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-slate-700/50 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-xs text-slate-500">© 2026 FreightBox. All rights reserved.</p>
+            <p class="text-xs text-slate-400 font-medium mt-3 md:mt-0">
+                This is a product of <a href="#" class="text-blue-500 hover:text-blue-400 font-bold transition">JLPVC Tech</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
