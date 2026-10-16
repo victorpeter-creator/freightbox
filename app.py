@@ -14,10 +14,8 @@ import random
 app = Flask(__name__)
 
 # --- CLOUD DEPLOYMENT CONFIGURATION ---
-# Pull secrets from the server environment, fallback to local for testing
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_super_secret_key_here')
 
-# Fix Render/Heroku PostgreSQL URL quirk and set the database
 db_url = os.environ.get('DATABASE_URL', 'sqlite:///fos.db')
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
@@ -26,7 +24,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Pull API key from the server environment
 TERMINAL49_API_KEY = os.environ.get("TERMINAL49_API_KEY", "T49_live_DcgZ6JWLUcPH13W2zqVpR6UC")
 
 # --- DIRECTORY CONFIGURATION ---
@@ -35,7 +32,7 @@ LOGO_DIR = os.path.join(app.root_path, 'static', 'logos')
 os.makedirs(QUOTE_DIR, exist_ok=True)
 os.makedirs(LOGO_DIR, exist_ok=True)
 
-# --- DUAL-AUTHENTICATION LOGIN MANAGER ---
+# --- LOGIN MANAGER ---
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -121,7 +118,6 @@ class Shipment(db.Model):
     origin_door_address = db.Column(db.String(255), nullable=True)
     dest_door_address = db.Column(db.String(255), nullable=True)
     
-    # Terminal49 Live Tracking Identifiers
     mbl_container_number = db.Column(db.String(100), nullable=True)
     vessel_lat = db.Column(db.Float, nullable=True)
     vessel_lon = db.Column(db.Float, nullable=True)
@@ -158,6 +154,10 @@ class Shipment(db.Model):
         days_at_port = (datetime.utcnow() - self.port_arrival_date).days
         remaining = self.free_days - days_at_port
         return remaining
+
+# --- INITIALIZE DATABASE FOR GUNICORN ---
+with app.app_context():
+    db.create_all()
 
 # =============================================================================
 # ROUTES
@@ -325,7 +325,6 @@ def sync_tracking(shipment_id):
         
         if response.status_code == 200:
             data = response.json()
-            # In a full webhook setup, T49 pushes exact coordinates. Simulating live fetch mapping fallback.
             shipment.vessel_lat = random.uniform(5.0, 30.0) 
             shipment.vessel_lon = random.uniform(-20.0, 20.0)
             shipment.last_sync = datetime.utcnow()
@@ -384,6 +383,4 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg'}
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
